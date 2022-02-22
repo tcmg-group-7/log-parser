@@ -12,7 +12,7 @@ error = 0
 redirect = 0
 totalrequests = 0
 
-print('Loading...')
+print('Loading...\n')
 
 # days dictionary
 
@@ -24,7 +24,17 @@ days = {
     'Thu': 0,
     'Fri': 0,
     'Sat': 0,
-    'Sun': 0
+}
+
+# the individual days of the week for the week-by-week portion
+days_by_week = {
+    'Sun': 0,
+    'Mon': 0,
+    'Tue': 0,
+    'Wed': 0,
+    'Thu': 0,
+    'Fri': 0,
+    'Sat': 0
 }
 
 # months dictionary
@@ -44,6 +54,11 @@ months = {
     'December': 0
 }
 
+# empty list that the days_by_week dict will append to
+week = []
+date_conversion = -1
+
+
 # for loop to find the number of requests for each month
 for line in filelines:
 
@@ -60,24 +75,60 @@ for line in filelines:
 
 # convert date string to a date object
     datestamp = datetime.strptime(parts[2], '%d/%b/%Y')
+
 # converting the date object to the date abbreviation
     day_conversion = datestamp.strftime('%a')
+    last_date = date_conversion
+
+# this variable converts the day digit portion from the original datestamp
+    date_conversion = datestamp.strftime('%d')
+
 # converting the date object to the month full name
     month_conversion = datestamp.strftime('%B')
+
+# if the date_conversion variable is not equal to the last_date and the day is Sun append to the empty week list
+    if date_conversion != last_date and day_conversion == "Sun":
+        week.append(days_by_week)
+        days_by_week = {
+            'Sun': 0,
+            'Mon': 0,
+            'Tue': 0,
+            'Wed': 0,
+            'Thu': 0,
+            'Fri': 0,
+            'Sat': 0
+        }
+
 # when the conversions match the dictionary values, add to the counters
     days[day_conversion] += 1
+    days_by_week[day_conversion] += 1
     months[month_conversion] += 1
 
-day_values = days.values()
-month_values = months.values()
-print(sum(day_values))
-print(sum(month_values))
+# These were test statements to make sure the sums matched
+# day_values = days.values()
+# month_values = months.values()
+# print(sum(day_values))
+# print(sum(month_values))
 
-# print out the dictionary totals
-print(days)
-print(months)
+# print out the totals per day from the days dictionary
+for key, value in days.items():
+    print(f'{key}: {value}\n')
+print()
 
-#looks through the log file 
+# printing the week-by-week totals from the week variable
+i = 0
+
+for weeks in week:
+    print(f'Week {i+1} total is: {week[i]}\n')
+    i += 1
+print()
+
+# print out the totals per month from the months dictionary
+for key, value in months.items():
+    print(f'{key}: {value}\n')
+print()
+
+# looks through the log file 
 for line in filelines:
     if "[" in line:
         totalrequests += 1
@@ -89,6 +140,7 @@ for line in filelines:
            redirect += 1
 errorpercent= round((error * 100) / totalrequests, 2)  
 redirectpercent= round((redirect * 100) / totalrequests, 2)
+
 print("Total number of requests:", totalrequests)
 print("Percentage of Unsuccessful Requests: ",str(errorpercent), "%")
 print("Percentage of Requests Redirected: ",str(redirectpercent), "%")
