@@ -8,6 +8,9 @@ local = 'http_access_log.txt'
 openfile = open(local, 'r')
 file = openfile.read()
 filelines = file.split('\n')
+error = 0
+redirect = 0
+totalrequests = 0
 
 print('Loading...')
 
@@ -73,3 +76,18 @@ print(sum(month_values))
 # print out the dictionary totals
 print(days)
 print(months)
+
+#looks through the log file 
+for line in filelines:
+    if "[" in line:
+        totalrequests += 1
+        if re.search("\".*\" 4..", line) is not None:
+            error += 1
+        
+        # 3xx codes = redirected requests
+        if re.search("\".*\" 3..", line) is not None:
+           redirect += 1
+           
+print("Total number of requests:", totalrequests, "\n")
+print("Percentage of Unsuccessful Requests: ", round((error * 100) / totalrequests, 2), "%")
+print("Percentage of Requests Redirected: ", round((redirect * 100) / totalrequests, 2), "%")
