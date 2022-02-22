@@ -87,7 +87,8 @@ for line in filelines:
         # 3xx codes = redirected requests
         if re.search("\".*\" 3..", line) is not None:
            redirect += 1
-           
+errorpercent= round((error * 100) / totalrequests, 2)  
+redirectpercent= round((redirect * 100) / totalrequests, 2)
 print("Total number of requests:", totalrequests, "\n")
-print("Percentage of Unsuccessful Requests: ", round((error * 100) / totalrequests, 2), "%")
-print("Percentage of Requests Redirected: ", round((redirect * 100) / totalrequests, 2), "%")
+print("Percentage of Unsuccessful Requests: ",errorpercent, "%")
+print("Percentage of Requests Redirected: ",redirectpercent, "%")
