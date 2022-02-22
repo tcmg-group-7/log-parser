@@ -8,6 +8,8 @@ local = 'http_access_log.txt'
 openfile = open(local, 'r')
 file = openfile.read()
 filelines = file.split('\n')
+error = 0
+redirect = 0
 
 print('Loading...')
 
