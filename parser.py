@@ -13,18 +13,18 @@ print('Loading...')
 # months dictionary
 
 months = {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0,
-    10: 0,
-    11: 0,
-    12: 0
+    'January': 0,
+    'February': 0,
+    'March': 0,
+    'April': 0,
+    'May': 0,
+    'June': 0,
+    'July': 0,
+    'August': 0,
+    'September': 0,
+    'October': 0,
+    'November': 0,
+    'December': 0
 }
 
 for line in filelines:
@@ -41,9 +41,8 @@ for line in filelines:
 
 # convert date string to a date object
     datestamp = datetime.strptime(parts[2], '%d/%b/%Y')
+    datestamp_conversion = datestamp.strftime('%B')
     # print(datestamp)
-    months[datestamp.month] += 1
+    months[datestamp_conversion] += 1
 
-values = months.values()
-print(sum(values))
 print(months)
