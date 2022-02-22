@@ -10,6 +10,7 @@ file = openfile.read()
 filelines = file.split('\n')
 error = 0
 redirect = 0
+totalrequests = 0
 
 print('Loading...')
 
