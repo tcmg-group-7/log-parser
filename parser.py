@@ -89,6 +89,6 @@ for line in filelines:
            redirect += 1
 errorpercent= round((error * 100) / totalrequests, 2)  
 redirectpercent= round((redirect * 100) / totalrequests, 2)
-print("Total number of requests:", totalrequests, "\n")
-print("Percentage of Unsuccessful Requests: ",errorpercent, "%")
-print("Percentage of Requests Redirected: ",redirectpercent, "%")
+print("Total number of requests:", totalrequests)
+print("Percentage of Unsuccessful Requests: ",str(errorpercent), "%")
+print("Percentage of Requests Redirected: ",str(redirectpercent), "%")
