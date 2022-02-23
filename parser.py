@@ -1,10 +1,6 @@
 
 ## this is an attempt at some of the code that we talked about in class. It will more than likely have to be cleaned up to work, but it should be a good start for the project 
 
-
-import re
-from datetime import datetime
-
 from urllib.request import urlretrieve
 
 url='https://s3.amazonaws.com/tcmg476/http_access_log'
@@ -14,38 +10,46 @@ local, headers=urlretrieve(url, local)
 file=open(local,'r')
 
 
+import re
+from datetime import datetime
+
+total_count = 0
+
 # How many requests were made on a week-by-week basis? Per month?
 
-# months = {
-#  Jan: 0,
-#  Feb: 0,
-#  Mar: 0,
-#  Apr: 0,
-#  May: 0,
-#  Jun: 0,
-#  Jul: 0,
-#  Aug: 0,
-#  Sep: 0,
-#  Oct: 0,
-#  Nov: 0,
-#  Dec: 0
-#}
-
-
-awk 'BEGIN {
-    split("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec ", months, " ")
-    for (a = 1; a <= 12; a++)
-        m[months[a]] = a
+months = {
+1: 0,
+2: 0,
+3: 0,
+4: 0,
+5: 0,
+6: 0,
+7: 0,
+8: 0,
+9: 0,
+10: 0,
+11: 0,
+12: 0
 }
-{
-    split($4,array,"[:/]");
-    year = array[3]
-    month = sprintf("%02d", m[array[2]])
 
-    print > FILENAME"-"year"_"month".txt"
-}' incendiary.ws-2009
+entire_log= [open('http_access_log.txt')]
 
+# the rejex pattern
+regex = re.compile("(.*?) - - \[(.*?):(.*).*\]\"[A_Z]{3,6}(.*?)HTTP.*\" (\d{3}) (.+)")
 
+for line in entire_log:
+    
+    total_count +=1
+    
+    parts = regex.split(line)
+    
+    datestamp = datetime.strptime(parts[2], '%d/%b/%Y')
+    
+    months[datestamp.month} +=1
+              
+    print(datestamp.month) 
+    
+print(months)
 
 
 
